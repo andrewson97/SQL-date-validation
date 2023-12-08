@@ -44,9 +44,9 @@ CREATE OR REPLACE FUNCTION check_dates()
 RETURNS TRIGGER AS $$
 BEGIN
     IF NEW.end_date IS NOT NULL AND NEW.start_date IS NULL THEN
-        RAISE EXCEPTION 'End date is present but start date is null';
+        RAISE EXCEPTION '1';
     ELSIF NEW.end_date < NEW.start_date THEN
-        RAISE EXCEPTION 'End date cannot be less than start date';
+        RAISE EXCEPTION '2';
     END IF;
     RETURN NEW;
 END;
@@ -56,6 +56,11 @@ CREATE TRIGGER date_trigger
 BEFORE INSERT OR UPDATE ON testproject
 FOR EACH ROW EXECUTE PROCEDURE check_dates();
 ```
+#### Error code description
+Error code 1 : End date is present but start date is null
+
+
+Error code 2 : End date is less than start date it cannot be less than start date
 
 ### Queries to check the validation
 
